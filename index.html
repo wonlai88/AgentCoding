@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wonlai88's GitHub Portfolio | GitHub 介紹網頁</title>
+    <meta name="description" content="歡迎來到 wonlai88 的 GitHub 儲存庫介紹網頁。這裡展示了我在人工智慧 (AI)、機器學習 (MachineLearning)、JavaScript 實驗專案及 HackMD 實作的開源成果。">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 設計系統變數 --- */
+        :root {
+            --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-border-hover: rgba(139, 92, 246, 0.4);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary-glow: rgba(139, 92, 246, 0.15);
+            --accent-purple: #a78bfa;
+            --accent-blue: #60a5fa;
+            --accent-green: #34d399;
+            --font-outfit: 'Outfit', sans-serif;
+            --font-inter: 'Inter', sans-serif;
+            --shadow-neon: 0 0 25px rgba(139, 92, 246, 0.25);
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- 基礎樣式 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-inter);
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 裝飾性背景發光粒子 */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            left: calc(50% - 300px);
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(96, 165, 250, 0.05) 50%, transparent 100%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* --- Header Section --- */
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            background: linear-gradient(#0f172a, #0f172a) padding-box,
+                        linear-gradient(135deg, var(--accent-purple), var(--accent-blue)) border-box;
+            padding: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: var(--transition-smooth);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: var(--shadow-neon);
+        }
+
+        .profile-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: #2563eb;
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            border: 2px solid #0f172a;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-family: var(--font-outfit);
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 30%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .bio {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            font-weight: 300;
+        }
+
+        .social-links a {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin: 0 0.75rem;
+            transition: var(--transition-smooth);
+            display: inline-block;
+            opacity: 0.8;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-blue);
+            transform: translateY(-3px);
+            opacity: 1;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+        }
+
+        /* --- Stats Dashboard --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px) saturate(180%);
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .stat-card:hover {
+            border-color: var(--card-border-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.05);
+        }
+
+        .stat-value {
+            font-family: var(--font-outfit);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-purple);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* --- Filter Controls --- */
+        .controls-section {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid var(--card-border);
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: var(--font-inter);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+        }
+
+        .search-input:focus + i {
+            color: var(--accent-purple);
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-right: 0.5rem;
+        }
+
+        .filter-btn {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .filter-btn:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        /* --- Repositories Grid --- */
+        .repos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+        }
+
+        .repo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.75rem;
+            backdrop-filter: blur(12px) saturate(180%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 懸停發光與邊框動畫 */
+        .repo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition-smooth);
+        }
+
+        .repo-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--card-border-hover);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .repo-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .repo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .repo-icon-wrapper {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+
+        .repo-title {
+            font-family: var(--font-outfit);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .repo-body {
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .repo-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 1rem;
+        }
+
+        .repo-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .meta-item i {
+            font-size: 0.85rem;
+        }
+
+        .lang-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .lang-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .lang-dot.javascript { background-color: #f1e05a; }
+        .lang-dot.jupyter { background-color: #da5b0b; }
+        .lang-dot.html { background-color: #e34c26; }
+        .lang-dot.unknown { background-color: #8b5cf6; }
+
+        .repo-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-view {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            width: 100%;
+            justify-content: center;
+        }
+
+        .repo-card:hover .btn-view {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        /* 查無結果區 */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--card-bg);
+            border: 1px dashed var(--card-border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .no-results h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Footer Section --- */
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+        }
+
+        footer a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        footer a:hover {
+            color: var(--accent-blue);
+            text-decoration: underline;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- RWD Media Queries --- */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .bio {
+                font-size: 1rem;
+            }
+            .controls-section {
+                padding: 1.25rem;
+            }
+            .repos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <div class="profile-container">
+                <img src="https://avatars.githubusercontent.com/u/135250883?v=4" alt="wonlai88" class="profile-avatar">
+                <span class="profile-badge">Pro</span>
+            </div>
+            <h1 id="user-title">wonlai88</h1>
+            <p class="bio">歡迎來到我的開源空間。熱衷於探索人工智慧、機器學習演算法，並開發高效前端與實用工具專案。</p>
+            <div class="social-links">
+                <a href="https://github.com/wonlai88" target="_blank" aria-label="GitHub Profile" id="link-github">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Stats Dashboard -->
+        <section class="stats-grid">
+            <div class="stat-card" id="stat-total">
+                <div class="stat-value" id="val-total">4</div>
+                <div class="stat-label">儲存庫總數</div>
+            </div>
+            <div class="stat-card" id="stat-languages">
+                <div class="stat-value" id="val-languages">3</div>
+                <div class="stat-label">涵蓋核心語言</div>
+            </div>
+            <div class="stat-card" id="stat-updated">
+                <div class="stat-value" style="font-size: 1.6rem; line-height: 2.2rem; color: var(--accent-blue);" id="val-updated">2026-04</div>
+                <div class="stat-label">最近推送時間</div>
+            </div>
+        </section>
+
+        <!-- Filter Controls -->
+        <section class="controls-section">
+            <div class="search-wrapper">
+                <input type="text" id="search-bar" class="search-input" placeholder="輸入關鍵字搜尋儲存庫名稱或描述...">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="filter-tags" id="filter-tags-container">
+                <span class="filter-label">核心語言篩選：</span>
+                <button class="filter-btn active" data-lang="all" id="btn-lang-all">All Projects</button>
+                <button class="filter-btn" data-lang="javascript" id="btn-lang-js">JavaScript</button>
+                <button class="filter-btn" data-lang="jupyter" id="btn-lang-jupyter">Jupyter Notebook</button>
+                <button class="filter-btn" data-lang="html" id="btn-lang-html">HTML</button>
+            </div>
+        </section>
+
+        <!-- Repositories Cards Grid -->
+        <main class="repos-grid" id="repos-container">
+            
+            <!-- Card 1: - -->
+            <article class="repo-card" data-language="javascript" data-name="-">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-wrapper">
+                            <i class="fab fa-js"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot javascript"></span>JavaScript
+                        </span>
+                    </div>
+                    <h2 class="repo-title">-</h2>
+                    <div class="repo-body">
+                        <p class="repo-desc">JavaScript 基礎邏輯與實驗性專案。收錄各式演算法實驗、ES6+ 語法特性練習以及實用工具函式，用以磨練與扎根前端邏輯能力。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-meta">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立於: 2026/04/24</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2026/04/24</span>
+                        </div>
+                    </div>
+                    <div class="repo-footer">
+                        <a href="https://github.com/wonlai88/-" target="_blank" class="btn-view" id="link-repo-dash">
+                            <span>探索儲存庫</span> <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 2: AI -->
+            <article class="repo-card" data-language="jupyter" data-name="ai">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-wrapper" style="color: var(--accent-blue); background: rgba(96, 165, 250, 0.1); border-color: rgba(96, 165, 250, 0.15);">
+                            <i class="fa fa-brain"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot jupyter"></span>Jupyter Notebook
+                        </span>
+                    </div>
+                    <h2 class="repo-title">AI</h2>
+                    <div class="repo-body">
+                        <p class="repo-desc">探索與實作深度學習、人工智慧神經網路演算法的研究儲存庫。專注於電腦視覺、自然語言處理與生成式 AI 的前沿實踐與筆記。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-meta">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立於: 2025/10/31</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2025/12/31</span>
+                        </div>
+                    </div>
+                    <div class="repo-footer">
+                        <a href="https://github.com/wonlai88/AI" target="_blank" class="btn-view" id="link-repo-ai">
+                            <span>探索儲存庫</span> <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 3: HackMD -->
+            <article class="repo-card" data-language="html" data-name="hackmd">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-wrapper" style="color: var(--accent-green); background: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.15);">
+                            <i class="fa fa-file-code"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot html"></span>HTML
+                        </span>
+                    </div>
+                    <h2 class="repo-title">HackMD</h2>
+                    <div class="repo-body">
+                        <p class="repo-desc">網頁前端開發與 HackMD 文件整合應用的實作練習。涵蓋 Markdown 渲染解析、客製化樣式設計與即時文件編輯器的協作排版技術。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-meta">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立於: 2023/06/01</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2023/06/09</span>
+                        </div>
+                    </div>
+                    <div class="repo-footer">
+                        <a href="https://github.com/wonlai88/HackMD" target="_blank" class="btn-view" id="link-repo-hackmd">
+                            <span>探索儲存庫</span> <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 4: MachineLearning -->
+            <article class="repo-card" data-language="jupyter" data-name="machinelearning">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-wrapper" style="color: var(--accent-purple); background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.15);">
+                            <i class="fa fa-chart-line"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot jupyter"></span>Jupyter Notebook
+                        </span>
+                    </div>
+                    <h2 class="repo-title">MachineLearning</h2>
+                    <div class="repo-body">
+                        <p class="repo-desc">機器學習經典演算法（如線性迴歸、SVM、決策樹、隨機森林及 K-means 聚類）的實作與數據分析練習。包含特徵工程與模型評估等工作流。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-meta">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立於: 2025/04/14</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2025/06/10</span>
+                        </div>
+                    </div>
+                    <div class="repo-footer">
+                        <a href="https://github.com/wonlai88/MachineLearning" target="_blank" class="btn-view" id="link-repo-ml">
+                            <span>探索儲存庫</span> <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 查無搜尋結果 -->
+            <div class="no-results" id="no-results-alert">
+                <i class="fa-solid fa-folder-open"></i>
+                <h3>找不到相符的儲存庫</h3>
+                <p>請嘗試使用其他關鍵字或更改核心語言篩選條件。</p>
+            </div>
+        </main>
+
+        <!-- Footer Section -->
+        <footer>
+            <p>&copy; 2026 wonlai88. Designed with <i class="fa fa-heart" style="color: #ef4444;"></i>. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.6;">託管於 <a href="https://github.com/wonlai88/AgentCoding" target="_blank">wonlai88/AgentCoding</a> &bull; 由 GitHub Pages 驅動</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBar = document.getElementById('search-bar');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const repoCards = document.querySelectorAll('.repo-card');
+            const noResultsAlert = document.getElementById('no-results-alert');
+            const valTotal = document.getElementById('val-total');
+
+            let currentLanguage = 'all';
+            let searchQuery = '';
+
+            // 更新篩選邏輯
+            function filterRepos() {
+                let visibleCount = 0;
+
+                repoCards.forEach(card => {
+                    const name = card.getAttribute('data-name');
+                    const language = card.getAttribute('data-language');
+                    const desc = card.querySelector('.repo-desc').textContent.toLowerCase();
+                    const title = card.querySelector('.repo-title').textContent.toLowerCase();
+
+                    const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery);
+                    const matchesLanguage = (currentLanguage === 'all' || language === currentLanguage);
+
+                    if (matchesSearch && matchesLanguage) {
+                        card.style.display = 'flex';
+                        // 加入些微的淡入動畫
+                        card.style.animation = 'fadeIn 0.4s ease';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // 更新顯示的儲存庫總數狀態
+                valTotal.textContent = visibleCount;
+
+                // 顯示/隱藏查無結果警示
+                if (visibleCount === 0) {
+                    noResultsAlert.style.display = 'block';
+                } else {
+                    noResultsAlert.style.display = 'none';
+                }
+            }
+
+            // 搜尋框輸入事件
+            searchBar.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                filterRepos();
+            });
+
+            // 語言篩選按鈕點擊事件
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentLanguage = btn.getAttribute('data-lang');
+                    filterRepos();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
