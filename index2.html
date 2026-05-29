@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wonlai88's Space | Professional Portfolio</title>
+    <meta name="description" content="歡迎來到 wonlai88 的開源程式空間。這裡展示了我在人工智慧 (AI)、機器學習 (Machine Learning)、JavaScript 與前端開發的開源成果。">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==================== 1. 設計系統與全域變數 ==================== */
+        :root {
+            /* 配色方案：Apple-Style Light Professional */
+            --color-bg-light: #f6f8fa;
+            --color-card-bg: rgba(255, 255, 255, 0.75);
+            --color-card-border: rgba(0, 0, 0, 0.06);
+            --color-card-border-hover: rgba(37, 99, 235, 0.4);
+            
+            --color-text-primary: #0f172a;    /* Slate 900 */
+            --color-text-secondary: #475569;  /* Slate 600 */
+            --color-text-muted: #64748b;      /* Slate 500 */
+            
+            /* 品牌漸層與光效 (Soft Aurora UI) */
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+            --gradient-text: linear-gradient(135deg, #0f172a 30%, #2563eb 70%, #4f46e5 100%);
+            --gradient-glow-purple: radial-gradient(circle, rgba(167, 139, 250, 0.05) 0%, transparent 70%);
+            --gradient-glow-blue: radial-gradient(circle, rgba(96, 165, 250, 0.06) 0%, transparent 70%);
+            --gradient-glow-cyan: radial-gradient(circle, rgba(6, 182, 212, 0.04) 0%, transparent 70%);
+            
+            /* 技術標籤配色 */
+            --accent-blue-brand: #2563eb;
+            --accent-purple: #7c3aed;
+            --accent-green: #059669;
+            --accent-orange: #ea580c;
+            
+            /* 字體定義 */
+            --font-display: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            /* 動態與陰影 */
+            --transition-premium: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+            --shadow-glow: 0 15px 30px rgba(37, 99, 235, 0.15);
+            --shadow-glow-green: 0 0 20px rgba(5, 150, 105, 0.2);
+        }
+
+        /* ==================== 2. 基礎設定與滾動條 ==================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg-light);
+            color: var(--color-text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 自訂高級滾動條 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg-light);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(37, 99, 235, 0.15);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(37, 99, 235, 0.3);
+        }
+
+        /* ==================== 3. 背景柔和極光 (Soft Aurora Elements) ==================== */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .aurora-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.8;
+            will-change: transform;
+        }
+
+        .glow-1 {
+            width: 700px;
+            height: 700px;
+            top: -200px;
+            left: -100px;
+            background: var(--gradient-glow-purple);
+            animation: floatGlow1 20s infinite alternate ease-in-out;
+        }
+
+        .glow-2 {
+            width: 600px;
+            height: 600px;
+            bottom: -100px;
+            right: -100px;
+            background: var(--gradient-glow-blue);
+            animation: floatGlow2 25s infinite alternate ease-in-out;
+        }
+
+        .glow-3 {
+            width: 500px;
+            height: 500px;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--gradient-glow-cyan);
+            animation: floatGlow3 18s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatGlow1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 50px) scale(1.1); }
+        }
+        @keyframes floatGlow2 {
+            0% { transform: translate(0, 0) scale(1.1); }
+            100% { transform: translate(-100px, -60px) scale(0.9); }
+        }
+        @keyframes floatGlow3 {
+            0% { transform: translate(-50%, -50%) translate(0, 0); }
+            100% { transform: translate(-50%, -50%) translate(40px, -40px); }
+        }
+
+        /* 淺色細緻網格背景紋理 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ==================== 4. 版面容器 ==================== */
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==================== 5. Premium Bento Box Grid ==================== */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* 基礎卡片樣式 */
+        .bento-card {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-premium);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 卡片發光懸停 */
+        .bento-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--color-card-border-hover);
+            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.08), var(--shadow-card);
+        }
+
+        /* 卡片上邊緣炫光條 */
+        .bento-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2.5px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: var(--transition-premium);
+        }
+        .bento-card:hover::after {
+            opacity: 1;
+        }
+
+        /* --- Module 1: Profile & Hero (橫跨兩欄) --- */
+        .card-profile {
+            grid-column: span 2;
+            flex-direction: row;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, var(--accent-blue-brand), var(--accent-purple));
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition-premium);
+        }
+        .avatar-wrapper:hover .avatar-img {
+            transform: scale(1.04) rotate(3deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .status-dot {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-green);
+            border: 4px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: var(--shadow-glow-green);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-badge {
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            color: var(--accent-blue-brand);
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            padding: 0.2rem 0.75rem;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        h1.user-name {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 850;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .user-title-container {
+            font-family: var(--font-mono);
+            color: var(--accent-purple);
+            font-size: 1.05rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .cursor-blink {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .profile-bio {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+            font-weight: 400;
+            max-width: 520px;
+        }
+
+        .profile-socials {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.4rem;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            text-decoration: none;
+            transition: var(--transition-premium);
+        }
+
+        .social-btn:hover {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* --- Module 2: Tech Skills & Badge (1x1) --- */
+        .card-skills {
+            grid-column: span 1;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--color-text-primary);
+        }
+
+        .card-title i {
+            color: var(--accent-blue-brand);
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .skill-tag {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: var(--color-text-secondary);
+            padding: 0.45rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-premium);
+        }
+
+        .skill-tag:hover {
+            background: rgba(37, 99, 235, 0.06);
+            border-color: rgba(37, 99, 235, 0.2);
+            color: var(--accent-blue-brand);
+            transform: scale(1.04);
+        }
+
+        .skill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        /* --- Module 3: Key Stats Dashboard (1x1) --- */
+        .card-stats {
+            grid-column: span 1;
+            justify-content: space-between;
+        }
+
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            width: 100%;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .stat-label-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--color-text-secondary);
+            font-size: 0.92rem;
+            font-weight: 500;
+        }
+        .stat-label-wrap i {
+            color: var(--accent-purple);
+            width: 16px;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 1.7rem;
+            font-weight: 850;
+            color: var(--color-text-primary);
+        }
+
+        /* --- Module 4: Git Contributions Mockup (橫跨兩欄) --- */
+        .card-activity {
+            grid-column: span 2;
+        }
+
+        .grid-git-contrib {
+            display: grid;
+            grid-template-columns: repeat(26, 1fr);
+            gap: 4px;
+            margin-top: 1rem;
+            background: rgba(0, 0, 0, 0.02);
+            padding: 1.25rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .contrib-box {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            background-color: rgba(0, 0, 0, 0.04);
+            transition: var(--transition-premium);
+        }
+
+        .contrib-box:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(5, 150, 105, 0.3);
+            z-index: 2;
+        }
+
+        /* 淺色模擬活躍格 */
+        .c-level-0 { background-color: rgba(0, 0, 0, 0.04); }
+        .c-level-1 { background-color: #c6e48b; }
+        .c-level-2 { background-color: #7bc96f; }
+        .c-level-3 { background-color: #239a3b; }
+        .c-level-4 { background-color: #196127; }
+
+        .activity-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        .legend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .legend-box {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        /* ==================== 6. 控制區域：篩選與搜尋 ==================== */
+        .controls-section {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--color-card-border);
+            border-radius: 24px;
+            padding: 1.25rem 2rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .search-container {
+            position: relative;
+            flex-grow: 1;
+            max-width: 450px;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            pointer-events: none;
+            transition: var(--transition-premium);
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0.8rem 1rem 0.8rem 3.25rem;
+            border-radius: 16px;
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-premium);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-blue-brand);
+            background: #ffffff;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.06);
+        }
+
+        .search-input:focus + i {
+            color: var(--accent-blue-brand);
+        }
+
+        .filter-tags {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .filter-btn {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            color: var(--color-text-secondary);
+            padding: 0.55rem 1.2rem;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            transition: var(--transition-premium);
+        }
+
+        .filter-btn:hover {
+            color: var(--color-text-primary);
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        .filter-btn.active {
+            background: var(--gradient-primary);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        /* ==================== 7. Repositories Cards Grid ==================== */
+        .repos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .repo-card {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 28px;
+            padding: 2.25rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-premium);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 懸停發光背景 */
+        .repo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.03) 0%, transparent 60%);
+            opacity: 0;
+            transition: var(--transition-premium);
+            pointer-events: none;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--color-card-border-hover);
+            box-shadow: 0 25px 50px -15px rgba(37, 99, 235, 0.1), var(--shadow-card);
+        }
+
+        .repo-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 卡片頂部 */
+        .repo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .repo-icon-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--accent-purple);
+            transition: var(--transition-premium);
+        }
+        .repo-card:hover .repo-icon-container {
+            background: var(--gradient-primary);
+            color: #ffffff;
+            transform: scale(1.1) rotate(4deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .lang-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            padding: 0.35rem 0.85rem;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .lang-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .lang-dot.js { background-color: #d97706; } /* 改用較深好讀的黃褐色 */
+        .lang-dot.jupyter { background-color: #da5b0b; }
+        .lang-dot.html { background-color: #e34c26; }
+
+        /* 卡片內容 */
+        .repo-info-wrap {
+            margin-bottom: 1.75rem;
+        }
+
+        .repo-title {
+            font-family: var(--font-display);
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--color-text-primary);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
+            transition: var(--transition-premium);
+        }
+        .repo-card:hover .repo-title {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .repo-desc {
+            color: var(--color-text-secondary);
+            font-size: 0.98rem;
+            font-weight: 400;
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 卡片底部元數據 */
+        .repo-metadata {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            font-family: var(--font-mono);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding-top: 1.25rem;
+            margin-bottom: 1.25rem;
+            font-weight: 500;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .meta-item i {
+            font-size: 0.9rem;
+        }
+
+        /* 探索按鈕 */
+        .btn-repo-link {
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            transition: var(--transition-premium);
+        }
+
+        .repo-card:hover .btn-repo-link {
+            background: var(--gradient-primary);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-repo-link i {
+            transition: var(--transition-premium);
+        }
+        .repo-card:hover .btn-repo-link i {
+            transform: translateX(4px);
+        }
+
+        /* 查無搜尋結果 */
+        .no-results {
+            grid-column: span 2;
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--color-card-bg);
+            border: 1px dashed rgba(0, 0, 0, 0.1);
+            border-radius: 28px;
+            color: var(--color-text-secondary);
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .no-results i {
+            font-size: 3.5rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .no-results h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== 8. 頁尾資訊 ==================== */
+        footer {
+            margin-top: 6rem;
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding-top: 2.5rem;
+            font-weight: 500;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            transition: var(--transition-premium);
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            color: var(--accent-blue-brand);
+            text-shadow: 0 0 10px rgba(37, 99, 235, 0.15);
+        }
+
+        /* ==================== 9. RWD 響應式排版 ==================== */
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .card-profile {
+                grid-column: span 2;
+            }
+            .card-skills {
+                grid-column: span 1;
+            }
+            .card-stats {
+                grid-column: span 1;
+            }
+            .card-activity {
+                grid-column: span 2;
+            }
+            .repos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem 3rem;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            .card-profile {
+                grid-column: span 1;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 2rem 1.5rem;
+            }
+            .avatar-img {
+                width: 110px;
+                height: 110px;
+            }
+            h1.user-name {
+                font-size: 2.4rem;
+            }
+            .card-skills, .card-stats, .card-activity {
+                grid-column: span 1;
+                padding: 2rem 1.5rem;
+            }
+            .grid-git-contrib {
+                grid-template-columns: repeat(13, 1fr);
+            }
+            .controls-section {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1.5rem;
+                gap: 1.25rem;
+                border-radius: 20px;
+            }
+            .search-container {
+                max-width: 100%;
+            }
+            .repos-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            .repo-card {
+                padding: 1.75rem;
+                border-radius: 24px;
+            }
+            .no-results {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景柔和極光效果 -->
+    <div class="aurora-bg">
+        <div class="aurora-glow glow-1"></div>
+        <div class="aurora-glow glow-2"></div>
+        <div class="aurora-glow glow-3"></div>
+    </div>
+
+    <div class="container">
+        
+        <!-- ==================== BENTO BOX DASHBOARD ==================== -->
+        <header class="bento-grid">
+            
+            <!-- Module 1: Profile Card -->
+            <section class="bento-card card-profile">
+                <div class="avatar-wrapper">
+                    <img src="https://avatars.githubusercontent.com/u/135250883?v=4" alt="wonlai88" class="avatar-img">
+                    <div class="status-dot"></div>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-header">
+                        <h1 class="user-name">wonlai88</h1>
+                        <span class="profile-badge">Pro Creator</span>
+                    </div>
+                    <div class="user-title-container">
+                        <span>&gt; </span><span id="typed-text"></span><span class="cursor-blink">|</span>
+                    </div>
+                    <p class="profile-bio">歡迎來到我的開源空間。熱衷於探索人工智慧、機器學習演算法，並開發高效前端與實用工具專案。</p>
+                    <div class="profile-socials">
+                        <a href="https://github.com/wonlai88" target="_blank" class="social-btn" aria-label="GitHub Profile">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Module 2: Tech Skills Stack -->
+            <section class="bento-card card-skills">
+                <div>
+                    <h2 class="card-title"><i class="fa-solid fa-layer-group"></i> 核心技術棧</h2>
+                    <div class="skills-grid">
+                        <div class="skill-tag"><span class="skill-dot" style="background-color: var(--accent-blue-brand);"></span>Python</div>
+                        <div class="skill-tag"><span class="skill-dot" style="background-color: #d97706;"></span>JavaScript</div>
+                        <div class="skill-tag"><span class="skill-dot" style="background-color: var(--accent-purple);"></span>Jupyter Notebook</div>
+                        <div class="skill-tag"><span class="skill-dot" style="background-color: #e34c26;"></span>HTML5 / CSS3</div>
+                        <div class="skill-tag"><span class="skill-dot" style="background-color: var(--accent-orange);"></span>PyTorch</div>
+                        <div class="skill-tag"><span class="skill-dot" style="background-color: var(--accent-green);"></span>Machine Learning</div>
+                        <div class="skill-tag"><span class="skill-dot" style="background-color: var(--accent-blue-brand);"></span>Git / GitHub</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 3: Key Stats Dashboard -->
+            <section class="bento-card card-stats">
+                <h2 class="card-title"><i class="fa-solid fa-chart-simple"></i> 開源統計</h2>
+                <div class="stats-list">
+                    <div class="stat-item">
+                        <div class="stat-label-wrap">
+                            <i class="fa-solid fa-code-fork"></i>
+                            <span>儲存庫總數</span>
+                        </div>
+                        <span class="stat-number" id="stats-total-num">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label-wrap">
+                            <i class="fa-solid fa-language"></i>
+                            <span>核心語言</span>
+                        </div>
+                        <span class="stat-number">3</span>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label-wrap">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <span>最近推送</span>
+                        </div>
+                        <span class="stat-number" style="font-size: 1.25rem; font-family: var(--font-mono); color: var(--accent-blue-brand);">2026-04</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 4: Git Contribution Graph Mockup -->
+            <section class="bento-card card-activity">
+                <div>
+                    <h2 class="card-title"><i class="fa-solid fa-calendar-check"></i> 貢獻活躍度模擬</h2>
+                    <div class="grid-git-contrib" id="git-contrib-container">
+                        <!-- 由 JS 動態生成活躍小格子 -->
+                    </div>
+                    <div class="activity-footer">
+                        <span>過去數月活躍狀態</span>
+                        <div class="legend">
+                            <span>Less</span>
+                            <div class="legend-box c-level-0"></div>
+                            <div class="legend-box c-level-1"></div>
+                            <div class="legend-box c-level-2"></div>
+                            <div class="legend-box c-level-3"></div>
+                            <div class="legend-box c-level-4"></div>
+                            <span>More</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </header>
+
+        <!-- ==================== CONTROLS SECTION ==================== -->
+        <section class="controls-section">
+            <div class="search-container">
+                <input type="text" id="search-bar" class="search-input" placeholder="輸入關鍵字搜尋儲存庫名稱或描述...">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="filter-tags">
+                <span class="filter-label">篩選語言：</span>
+                <button class="filter-btn active" data-lang="all" id="btn-lang-all">All Projects</button>
+                <button class="filter-btn" data-lang="javascript" id="btn-lang-js">JavaScript</button>
+                <button class="filter-btn" data-lang="jupyter" id="btn-lang-jupyter">Jupyter Notebook</button>
+                <button class="filter-btn" data-lang="html" id="btn-lang-html">HTML</button>
+            </div>
+        </section>
+
+        <!-- ==================== REPOSITORIES Cards Grid ==================== -->
+        <main class="repos-grid" id="repos-container">
+            
+            <!-- Card 1: - (JavaScript) -->
+            <article class="repo-card animate-card" data-language="javascript" data-name="-">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-container">
+                            <i class="fab fa-js"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot js"></span>JavaScript
+                        </span>
+                    </div>
+                    <div class="repo-info-wrap">
+                        <h2 class="repo-title">-</h2>
+                        <p class="repo-desc">JavaScript 基礎邏輯與實驗性專案。收錄各式演算法實驗、ES6+ 語法特性練習以及實用工具函式，用以磨練與扎根前端邏輯能力。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-metadata">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立: 2026/04/24</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2026/04/24</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/wonlai88/-" target="_blank" class="btn-repo-link">
+                        <span>探索儲存庫</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 2: AI (Jupyter Notebook) -->
+            <article class="repo-card animate-card" data-language="jupyter" data-name="ai">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-container" style="color: var(--accent-blue-brand);">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot jupyter"></span>Jupyter Notebook
+                        </span>
+                    </div>
+                    <div class="repo-info-wrap">
+                        <h2 class="repo-title">AI</h2>
+                        <p class="repo-desc">探索與實作深度學習、人工智慧神經網路演算法的研究儲存庫。專注於電腦視覺、自然語言處理與生成式 AI 的前沿實踐與筆記。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-metadata">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立: 2025/10/31</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2025/12/31</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/wonlai88/AI" target="_blank" class="btn-repo-link">
+                        <span>探索儲存庫</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 3: HackMD (HTML) -->
+            <article class="repo-card animate-card" data-language="html" data-name="hackmd">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-container" style="color: var(--accent-green);">
+                            <i class="fa-solid fa-file-code"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot html"></span>HTML
+                        </span>
+                    </div>
+                    <div class="repo-info-wrap">
+                        <h2 class="repo-title">HackMD</h2>
+                        <p class="repo-desc">網頁前端開發與 HackMD 文件整合應用的實作練習。涵蓋 Markdown 渲染解析、客製化樣式設計與即時文件編輯器的協作排版技術。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-metadata">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立: 2023/06/01</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2023/06/09</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/wonlai88/HackMD" target="_blank" class="btn-repo-link">
+                        <span>探索儲存庫</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Card 4: MachineLearning (Jupyter Notebook) -->
+            <article class="repo-card animate-card" data-language="jupyter" data-name="machinelearning">
+                <div>
+                    <div class="repo-header">
+                        <div class="repo-icon-container" style="color: var(--accent-orange);">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <span class="lang-badge">
+                            <span class="lang-dot jupyter"></span>Jupyter Notebook
+                        </span>
+                    </div>
+                    <div class="repo-info-wrap">
+                        <h2 class="repo-title">MachineLearning</h2>
+                        <p class="repo-desc">機器學習經典演算法（如線性迴歸、SVM、決策樹、隨機森林及 K-means 聚類）的實作與數據分析練習。包含特徵工程與模型評估等工作流。</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="repo-metadata">
+                        <div class="meta-item">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>建立: 2025/04/14</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>更新: 2025/06/10</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/wonlai88/MachineLearning" target="_blank" class="btn-repo-link">
+                        <span>探索儲存庫</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- 查無結果警示 -->
+            <div class="no-results" id="no-results-alert">
+                <i class="fa-solid fa-folder-open"></i>
+                <h3>未找到符合的儲存庫</h3>
+                <p>請嘗試使用其他關鍵字，或變更語言篩選條件。</p>
+            </div>
+
+        </main>
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer>
+            <p>&copy; 2026 wonlai88. Designed with <i class="fa fa-heart" style="color: #ef4444; animation: heartBeat 1.5s infinite;"></i> &bull; All rights reserved.</p>
+            <p style="opacity: 0.5; font-size: 0.8rem;">託管於 <a href="https://github.com/wonlai88/AgentCoding" target="_blank">wonlai88/AgentCoding</a> &bull; 由 GitHub Pages 驅動</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript 動態功能與特效 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. 數字滾動效果 (Stats Roll) ---
+            const animateStatsNumber = (id, targetValue, duration = 1500) => {
+                const element = document.getElementById(id);
+                if (!element) return;
+                
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const currentValue = Math.floor(progress * (2 - progress) * targetValue);
+                    element.textContent = currentValue;
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        element.textContent = targetValue;
+                    }
+                };
+                window.requestAnimationFrame(step);
+            };
+
+            animateStatsNumber('stats-total-num', 4, 1200);
+
+            // --- 2. 打字機效果 ---
+            const typedTextSpan = document.getElementById("typed-text");
+            const roles = ["Artificial Intelligence Explorer", "Machine Learning Enthusiast", "Frontend Developer"];
+            let roleIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typeSpeed = 80;
+
+            function typeRole() {
+                const currentRole = roles[roleIndex];
+                
+                if (isDeleting) {
+                    typedTextSpan.textContent = currentRole.substring(0, charIndex - 1);
+                    charIndex--;
+                    typeSpeed = 40;
+                } else {
+                    typedTextSpan.textContent = currentRole.substring(0, charIndex + 1);
+                    charIndex++;
+                    typeSpeed = 80;
+                }
+
+                if (!isDeleting && charIndex === currentRole.length) {
+                    typeSpeed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    roleIndex = (roleIndex + 1) % roles.length;
+                    typeSpeed = 500;
+                }
+
+                setTimeout(typeRole, typeSpeed);
+            }
+
+            if (typedTextSpan) {
+                setTimeout(typeRole, 1000);
+            }
+
+            // --- 3. 模擬 GitHub 貢獻小方格 ---
+            const contribContainer = document.getElementById('git-contrib-container');
+            if (contribContainer) {
+                const totalBoxes = 130; 
+                for (let i = 0; i < totalBoxes; i++) {
+                    const box = document.createElement('div');
+                    box.classList.add('contrib-box');
+                    
+                    const rand = Math.random();
+                    let level = 0;
+                    if (rand > 0.85) level = 4;
+                    else if (rand > 0.70) level = 3;
+                    else if (rand > 0.50) level = 2;
+                    else if (rand > 0.25) level = 1;
+                    
+                    box.classList.add(`c-level-${level}`);
+                    contribContainer.appendChild(box);
+                }
+            }
+
+            // --- 4. 搜尋與語言篩選邏輯 ---
+            const searchBar = document.getElementById('search-bar');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const repoCards = document.querySelectorAll('.repo-card');
+            const noResultsAlert = document.getElementById('no-results-alert');
+            const statsTotal = document.getElementById('stats-total-num');
+
+            let currentLanguage = 'all';
+            let searchQuery = '';
+
+            function filterRepos() {
+                let visibleCount = 0;
+
+                repoCards.forEach(card => {
+                    const title = card.querySelector('.repo-title').textContent.toLowerCase();
+                    const desc = card.querySelector('.repo-desc').textContent.toLowerCase();
+                    const language = card.getAttribute('data-language');
+
+                    const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery);
+                    const matchesLanguage = (currentLanguage === 'all' || language === currentLanguage);
+
+                    if (matchesSearch && matchesLanguage) {
+                        card.style.display = 'flex';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                        card.style.opacity = '0';
+                    }
+                });
+
+                if (statsTotal) {
+                    statsTotal.textContent = visibleCount;
+                }
+
+                if (visibleCount === 0) {
+                    noResultsAlert.style.display = 'block';
+                } else {
+                    noResultsAlert.style.display = 'none';
+                }
+            }
+
+            if (searchBar) {
+                searchBar.addEventListener('input', (e) => {
+                    searchQuery = e.target.value.toLowerCase().trim();
+                    filterRepos();
+                });
+            }
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentLanguage = btn.getAttribute('data-lang');
+                    filterRepos();
+                });
+            });
+
+            // --- 5. 3D Tilt 卡片傾斜微動效 ---
+            const maxTiltAngle = 5; 
+            repoCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; 
+                    const y = e.clientY - rect.top;  
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((centerY - y) / centerY) * maxTiltAngle;
+                    const rotateY = ((x - centerX) / centerX) * maxTiltAngle;
+                    
+                    card.style.transform = `perspective(1000px) translateY(-5px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) translateY(0) rotateX(0deg) rotateY(0deg)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
